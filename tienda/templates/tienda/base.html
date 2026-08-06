@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}VideoClub{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'tienda/style.css' %}?v=3">
+</head>
+<body>
+
+<div class="nav">
+    <span class="marca">VideoClub</span>
+    <a href="{% url 'index' %}">Inicio</a>
+    <a href="{% url 'pelicula_list' %}">Peliculas</a>
+    <a href="{% url 'socio_list' %}">Socios</a>
+    <a href="{% url 'alquiler_list' %}">Alquileres</a>
+</div>
+
+<div class="contenido">
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="{% if message.tags == 'error' %}error{% else %}mensaje{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    <div class="pie">
+        <p>VideoClub - Proyecto Django - {{ now|date:'Y' }}</p>
+    </div>
+
+</div>
+
+</body>
+</html>

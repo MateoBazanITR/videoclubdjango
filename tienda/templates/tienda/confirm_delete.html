@@ -1,0 +1,17 @@
+{% extends 'tienda/base.html' %}
+
+{% block title %}{{ titulo }} - VideoClub{% endblock %}
+
+{% block content %}
+<h1>{{ titulo }}</h1>
+
+<div class="caja" style="width: 450px;">
+    <p>¿Seguro que deseas eliminar <b>{{ objeto }}</b>?</p>
+    <p style="color: #888888; font-size: 13px;">Esta acción no se puede deshacer.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="boton boton-rojo">Sí, eliminar</button>
+        <a href="{% url cancelar_url %}" class="boton">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
