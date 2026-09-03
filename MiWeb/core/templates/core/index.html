@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% block title %}Inicio - Videoclub{% endblock %}
+{% block content %}
+<div class="row justify-content-center g-4">
+    <div class="col-md-5">
+        <div class="card text-center shadow-sm h-100">
+            <div class="card-body d-flex flex-column">
+                <h3 class="card-title">👤 Cliente</h3>
+                <p class="card-text">Consulta el catálogo, alquila películas y revisa tus alquileres activos.</p>
+                <div class="mt-auto d-grid gap-2">
+                    <a href="{% url 'cliente_peliculas' %}" class="btn btn-primary">Ver películas</a>
+                    <a href="{% url 'alquilar_paso1' %}" class="btn btn-success">Alquilar</a>
+                    <a href="{% url 'mis_alquileres' %}" class="btn btn-outline-primary">Mis alquileres</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card text-center shadow-sm h-100">
+            <div class="card-body d-flex flex-column">
+                <h3 class="card-title">🔑 Dueño</h3>
+                <p class="card-text">Gestiona películas, socios y devoluciones del videoclub.</p>
+                <div class="mt-auto">
+                    <a href="{% url 'login_dueno' %}" class="btn btn-dark">Acceso dueño</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

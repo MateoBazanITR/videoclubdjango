@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+{% block title %}Editar película - Videoclub{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">✏️ Editar película</div>
+            <div class="card-body">
+                <h6 class="text-muted mb-3">{{ pelicula.titulo }} ({{ pelicula.anio }})</h6>
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label">{{ form.titulo.label }}</label>
+                            {{ form.titulo }}
+                            {% for error in form.titulo.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.anio.label }}</label>
+                            {{ form.anio }}
+                            {% for error in form.anio.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ form.nacionalidad.label }}</label>
+                            {{ form.nacionalidad }}
+                            {% for error in form.nacionalidad.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ form.productora.label }}</label>
+                            {{ form.productora }}
+                            {% for error in form.productora.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+                    <hr>
+                    <h6>Director</h6>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ form.director_nombre.label }}</label>
+                            {{ form.director_nombre }}
+                            {% for error in form.director_nombre.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ form.director_nacionalidad.label }}</label>
+                            {{ form.director_nacionalidad }}
+                            {% for error in form.director_nacionalidad.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    <a href="{% url 'dueno_peliculas' %}" class="btn btn-outline-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

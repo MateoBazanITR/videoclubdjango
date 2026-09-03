@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% block title %}Registrar socio - Panel dueño{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">👤 Registrar socio</div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.dni.label }}</label>
+                        {{ form.dni }}
+                        {% for error in form.dni.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.nombre.label }}</label>
+                        {{ form.nombre }}
+                        {% for error in form.nombre.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Registrar socio</button>
+                    <a href="{% url 'dueno_socios' %}" class="btn btn-outline-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

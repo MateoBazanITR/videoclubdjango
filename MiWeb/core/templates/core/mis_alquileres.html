@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+{% block title %}Mis alquileres - Videoclub{% endblock %}
+{% block content %}
+<h2 class="mb-3">Mis alquileres</h2>
+
+<div class="row justify-content-center mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="post" class="row g-2">
+                    {% csrf_token %}
+                    <div class="col-8">
+                        <label class="form-label">{{ dni_form.dni.label }}</label>
+                        {{ dni_form.dni }}
+                        {% for error in dni_form.dni.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                    </div>
+                    <div class="col-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">Consultar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if socio %}
+    <h4 class="mb-3">Alquileres activos de {{ socio.nombre }} (DNI {{ socio.dni }})</h4>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle bg-white shadow-sm">
+            <thead class="table-dark">
+                <tr>
+                    <th>Película</th>
+                    <th>N° ejemplar</th>
+                    <th>Fecha de inicio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alquiler in activos %}
+                    <tr>
+                        <td>{{ alquiler.ejemplar.pelicula.titulo }}</td>
+                        <td>{{ alquiler.ejemplar.numero_ejemplar }}</td>
+                        <td>{{ alquiler.fecha_inicio }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center text-muted">No tenés alquileres activos.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}

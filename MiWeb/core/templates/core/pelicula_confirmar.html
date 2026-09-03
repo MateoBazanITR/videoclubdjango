@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% block title %}Eliminar película - Videoclub{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger shadow-sm">
+            <div class="card-header bg-danger text-white">⚠️ Confirmar eliminación</div>
+            <div class="card-body">
+                <p>¿Está seguro de que desea eliminar la película <strong>"{{ pelicula.titulo }}"</strong>?</p>
+                <p class="text-muted">
+                    Se eliminarán también: sus alquileres, ejemplares ({{ pelicula.ejemplares.count }}) y las relaciones con sus actores ({{ pelicula.actores.count }}).
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                    <a href="{% url 'dueno_peliculas' %}" class="btn btn-outline-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

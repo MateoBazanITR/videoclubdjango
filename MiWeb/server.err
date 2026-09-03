@@ -1,0 +1,10 @@
+[31/Aug/2026 09:23:09] "GET / HTTP/1.1" 200 2665
+[31/Aug/2026 09:23:11] "GET /dueno/login/ HTTP/1.1" 200 2360
+[31/Aug/2026 09:23:13] "POST /dueno/login/ HTTP/1.1" 302 0
+[31/Aug/2026 09:23:13] "GET /dueno/panel/ HTTP/1.1" 200 3066
+[31/Aug/2026 09:23:14] "GET /dueno/socios/ HTTP/1.1" 200 3671
+[31/Aug/2026 09:23:17] "GET /dueno/logout/ HTTP/1.1" 302 0
+[31/Aug/2026 09:23:17] "GET / HTTP/1.1" 200 2927
+[31/Aug/2026 09:44:53] "GET / HTTP/1.1" 200 2665
+[31/Aug/2026 09:45:20] "GET /cliente/peliculas/ HTTP/1.1" 200 3707
+[31/Aug/2026 09:45:23] "GET / HTTP/1.1" 200 2665

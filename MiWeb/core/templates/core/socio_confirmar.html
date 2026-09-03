@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+{% block title %}Eliminar socio - Videoclub{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger shadow-sm">
+            <div class="card-header bg-danger text-white">⚠️ Confirmar eliminación</div>
+            <div class="card-body">
+                <p>¿Está seguro de que desea eliminar al socio <strong>{{ socio.nombre }}</strong> (DNI {{ socio.dni }})?</p>
+                <p class="text-muted">
+                    Se borrarán sus {{ socio.alquileres.count }} alquileres.
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+                    <a href="{% url 'dueno_socios' %}" class="btn btn-outline-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'core/base.html' %}
+{% block title %}Registrar película - Videoclub{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">🎞️ Registrar película</div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label">{{ form.titulo.label }}</label>
+                            {{ form.titulo }}
+                            {% for error in form.titulo.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.anio.label }}</label>
+                            {{ form.anio }}
+                            {% for error in form.anio.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ form.nacionalidad.label }}</label>
+                            {{ form.nacionalidad }}
+                            {% for error in form.nacionalidad.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ form.productora.label }}</label>
+                            {{ form.productora }}
+                            {% for error in form.productora.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h6>Director</h6>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ form.director_nombre.label }}</label>
+                            {{ form.director_nombre }}
+                            {% for error in form.director_nombre.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ form.director_nacionalidad.label }}</label>
+                            {{ form.director_nacionalidad }}
+                            {% for error in form.director_nacionalidad.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h6>Actores</h6>
+                    <div class="row align-items-end">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.num_actores.label }}</label>
+                            {{ form.num_actores }}
+                            {% for error in form.num_actores.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <button type="button" class="btn btn-outline-primary w-100" onclick="generarActores()">Generar actores</button>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.num_ejemplares.label }}</label>
+                            {{ form.num_ejemplares }}
+                            {% for error in form.num_ejemplares.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                        </div>
+                    </div>
+
+                    <div id="actores">
+                        {% for nombre in nombres %}
+                            <div class="row g-2 mb-2 actor-fila">
+                                <div class="col-md-4"><input type="text" name="actor_nombre" class="form-control" placeholder="Nombre" value="{{ nombre }}"></div>
+                                <div class="col-md-4"><input type="text" name="actor_nacionalidad" class="form-control" placeholder="Nacionalidad" value="{{ nacionalidades|slice:forloop.counter0|first }}"></div>
+                                <div class="col-md-3">
+                                    <select name="actor_sexo" class="form-select">
+                                        <option value="" {% if sexos|slice:forloop.counter0|first == '' %}selected{% endif %}>Sexo...</option>
+                                        <option value="M" {% if sexos|slice:forloop.counter0|first == 'M' %}selected{% endif %}>Masculino</option>
+                                        <option value="F" {% if sexos|slice:forloop.counter0|first == 'F' %}selected{% endif %}>Femenino</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"><button type="button" class="btn btn-outline-danger w-100" onclick="this.parentElement.parentElement.remove()">✕</button></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <button type="submit" class="btn btn-success mt-2">Registrar película</button>
+                    <a href="{% url 'dueno_peliculas' %}" class="btn btn-outline-secondary mt-2">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function generarActores() {
+        const num = parseInt(document.getElementById('id_num_actores').value) || 0;
+        const contenedor = document.getElementById('actores');
+        contenedor.innerHTML = '';
+        if (num < 1) { alert('Ingrese la cantidad de actores (mínimo 1).'); return; }
+        if (num > 30) { alert('Máximo 30 actores.'); return; }
+        for (let i = 1; i <= num; i++) {
+            const fila = document.createElement('div');
+            fila.className = 'row g-2 mb-2 actor-fila';
+            fila.innerHTML = `
+                <div class="col-md-4"><input type="text" name="actor_nombre" class="form-control" placeholder="Nombre del actor ${i}"></div>
+                <div class="col-md-4"><input type="text" name="actor_nacionalidad" class="form-control" placeholder="Nacionalidad"></div>
+                <div class="col-md-3">
+                    <select name="actor_sexo" class="form-select">
+                        <option value="">Sexo...</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
+                    </select>
+                </div>
+                <div class="col-md-1"><button type="button" class="btn btn-outline-danger w-100" onclick="this.parentElement.parentElement.remove()">✕</button></div>`;
+            contenedor.appendChild(fila);
+        }
+    }
+</script>
+{% endblock %}

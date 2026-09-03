@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+{% block title %}Ver películas - Videoclub{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Películas disponibles</h2>
+    <a href="{% url 'alquilar_paso1' %}" class="btn btn-success">Alquilar</a>
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-6">
+        <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Filtrar por título...">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+    {% if q %}
+        <div class="col-auto">
+            <a href="{% url 'cliente_peliculas' %}" class="btn btn-outline-secondary">Limpiar</a>
+        </div>
+    {% endif %}
+</form>
+
+<div class="row g-3">
+    {% for pelicula in peliculas %}
+        <div class="col-md-4 col-lg-3">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pelicula.titulo }}</h5>
+                    <p class="card-text small text-muted mb-1">🎬 Director: {{ pelicula.director.nombre }}</p>
+                    <p class="card-text small text-muted mb-1">📅 Año: {{ pelicula.anio }} · {{ pelicula.nacionalidad }}</p>
+                    <p class="card-text small text-muted mb-0">🏷️ {{ pelicula.productora }}</p>
+                    <span class="badge bg-success mt-2">{{ pelicula.disponibles }} disponible{{ pelicula.disponibles|pluralize }}</span>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No hay películas con ejemplares disponibles{% if q %} para "{{ q }}"{% endif %}.</div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

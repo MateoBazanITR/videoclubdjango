@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+{% block title %}Panel del dueño - Videoclub{% endblock %}
+{% block content %}
+<h2 class="mb-4">Panel del dueño</h2>
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center h-100">
+            <div class="card-body">
+                <h5 class="card-title">🎞️ Películas</h5>
+                <p class="card-text">Registrar, modificar, eliminar y buscar películas.</p>
+                <a href="{% url 'dueno_peliculas' %}" class="btn btn-primary">Gestionar</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center h-100">
+            <div class="card-body">
+                <h5 class="card-title">👥 Socios</h5>
+                <p class="card-text">Ver los socios, sus alquileres activos y eliminarlos.</p>
+                <a href="{% url 'dueno_socios' %}" class="btn btn-primary">Gestionar</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center h-100">
+            <div class="card-body">
+                <h5 class="card-title">↩️ Devolver</h5>
+                <p class="card-text">Registrar devoluciones de alquileres por DNI.</p>
+                <a href="{% url 'devolver' %}" class="btn btn-primary">Devolver</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
