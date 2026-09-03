@@ -1,0 +1,56 @@
+{% extends 'tienda/base.html' %}
+
+{% block title %}Alquileres - VideoClub{% endblock %}
+
+{% block content %}
+<h1>Alquileres</h1>
+
+<p><a href="{% url 'alquiler_create' %}" class="boton">Nuevo alquiler</a></p>
+
+<p class="pie-filtros">
+    {% if activos %}
+        <a href="{% url 'alquiler_list' %}">Todos</a> |
+        <span class="badge badge-pendiente">Activos</span>
+    {% else %}
+        <span class="badge badge-pendiente">Todos</span> |
+        <a href="{% url 'alquiler_list' %}?activos=1">Activos</a>
+    {% endif %}
+</p>
+
+{% if alquileres %}
+<table class="tabla">
+    <tr>
+        <th>Película</th>
+        <th>Ejemplar</th>
+        <th>Socio</th>
+        <th>Fecha de inicio</th>
+        <th>Fecha de devolución</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    {% for a in alquileres %}
+    <tr>
+        <td>{{ a.pelicula }}</td>
+        <td>{{ a.ejemplar }}</td>
+        <td>{{ a.socio }}</td>
+        <td>{{ a.fecha_inicio|date:'d/m/Y' }}</td>
+        <td>{{ a.fecha_devolucion|date:'d/m/Y'|default:'—' }}</td>
+        <td>
+            {% if a.fecha_devolucion %}
+                <span class="badge badge-ok">Devuelto</span>
+            {% else %}
+                <span class="badge badge-pendiente">Pendiente</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if not a.fecha_devolucion %}
+                <a href="{% url 'alquiler_devolver' a.pk %}" class="boton">Registrar devolución</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No hay alquileres.</p>
+{% endif %}
+{% endblock %}

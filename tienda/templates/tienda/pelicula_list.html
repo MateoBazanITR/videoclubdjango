@@ -1,0 +1,43 @@
+{% extends 'tienda/base.html' %}
+
+{% block title %}Películas - VideoClub{% endblock %}
+
+{% block content %}
+<h1>Catálogo de películas</h1>
+
+<p><a href="{% url 'pelicula_create' %}" class="boton">Añadir película</a></p>
+
+<form method="get">
+    <input type="text" name="q" value="{{ query }}" placeholder="Buscar por título...">
+    <button type="submit" class="boton">Buscar</button>
+    <a href="{% url 'pelicula_list' %}" class="boton">Limpiar</a>
+</form>
+
+{% if peliculas %}
+<table class="tabla">
+    <tr>
+        <th>Título</th>
+        <th>Director</th>
+        <th>Nacionalidad</th>
+        <th>Año</th>
+        <th>Ejemplares</th>
+        <th>Acciones</th>
+    </tr>
+    {% for p in peliculas %}
+    <tr>
+        <td>{{ p.titulo }}</td>
+        <td>{{ p.director }}</td>
+        <td>{{ p.nacionalidad|default:'—' }}</td>
+        <td>{{ p.anio|default:'—' }}</td>
+        <td>{{ p.ejemplares }}</td>
+        <td>
+            <a href="{% url 'pelicula_update' p.pk %}" class="boton">Editar</a>
+            <a href="{% url 'pelicula_delete' p.pk %}" class="boton boton-rojo">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No se encontraron películas.</p>
+{% endif %}
+{% endblock %}

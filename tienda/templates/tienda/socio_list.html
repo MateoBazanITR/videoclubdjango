@@ -1,0 +1,39 @@
+{% extends 'tienda/base.html' %}
+
+{% block title %}Socios - VideoClub{% endblock %}
+
+{% block content %}
+<h1>Socios</h1>
+
+<p><a href="{% url 'socio_create' %}" class="boton">Añadir socio</a></p>
+
+{% if socios %}
+<table class="tabla">
+    <tr>
+        <th>DNI</th>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Avalador</th>
+        <th>Alquileres activos</th>
+        <th>Acciones</th>
+    </tr>
+    {% for s in socios %}
+    <tr>
+        <td>{{ s.dni }}</td>
+        <td>{{ s.nombre }}</td>
+        <td>{{ s.direccion|default:'—' }}</td>
+        <td>{{ s.telefono|default:'—' }}</td>
+        <td>{{ s.avalador|default:'—' }}</td>
+        <td>{{ s.alquileres_activos }}</td>
+        <td>
+            <a href="{% url 'socio_update' s.dni %}" class="boton">Editar</a>
+            <a href="{% url 'socio_delete' s.dni %}" class="boton boton-rojo">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No hay socios registrados.</p>
+{% endif %}
+{% endblock %}

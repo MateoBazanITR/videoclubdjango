@@ -1,0 +1,88 @@
+{% extends 'tienda/base.html' %}
+
+{% block title %}Inicio - VideoClub{% endblock %}
+
+{% block content %}
+<h1>Bienvenido al VideoClub</h1>
+<p>Desde aquí puedes gestionar las películas, los socios y los alquileres de la tienda.</p>
+
+<h2>Resumen</h2>
+<table class="tabla tabla-resumen">
+    <tr>
+        <th>Dato</th>
+        <th>Cantidad</th>
+    </tr>
+    <tr>
+        <td>Total películas</td>
+        <td>{{ total_peliculas }}</td>
+    </tr>
+    <tr>
+        <td>Total socios</td>
+        <td>{{ total_socios }}</td>
+    </tr>
+    <tr>
+        <td>Ejemplares</td>
+        <td>{{ total_ejemplares }}</td>
+    </tr>
+    <tr>
+        <td>Alquileres activos</td>
+        <td>{{ alquileres_activos }}</td>
+    </tr>
+    <tr>
+        <td>Devoluciones</td>
+        <td>{{ alquileres_devueltos }}</td>
+    </tr>
+</table>
+
+<p>
+    <a href="{% url 'pelicula_create' %}" class="boton">Añadir película</a>
+    <a href="{% url 'socio_create' %}" class="boton">Añadir socio</a>
+    <a href="{% url 'alquiler_create' %}" class="boton">Nuevo alquiler</a>
+</p>
+
+<h2>Últimas películas</h2>
+{% if ultimas_peliculas %}
+    <table class="tabla">
+        <tr>
+            <th>Título</th>
+            <th>Director</th>
+            <th>Ejemplares</th>
+        </tr>
+        {% for p in ultimas_peliculas %}
+        <tr>
+            <td>{{ p.titulo }}</td>
+            <td>{{ p.director }}</td>
+            <td>{{ p.ejemplares }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No hay películas todavía.</p>
+{% endif %}
+
+<h2>Últimos alquileres</h2>
+{% if ultimos_alquileres %}
+    <table class="tabla">
+        <tr>
+            <th>Película</th>
+            <th>Socio</th>
+            <th>Estado</th>
+        </tr>
+        {% for a in ultimos_alquileres %}
+        <tr>
+            <td>{{ a.pelicula }}</td>
+            <td>{{ a.socio }}</td>
+            <td>
+                {% if a.fecha_devolucion %}
+                    <span class="badge badge-ok">Devuelto</span>
+                {% else %}
+                    <span class="badge badge-pendiente">Pendiente</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No hay alquileres todavía.</p>
+{% endif %}
+{% endblock %}

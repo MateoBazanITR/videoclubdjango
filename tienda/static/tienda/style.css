@@ -1,0 +1,287 @@
+body {
+    margin: 0;
+    padding: 0 0 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+h1 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+h1 + p {
+    color: #555;
+}
+
+h2 {
+    margin: 24px 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+}
+
+a {
+    color: #0b62c4;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Barra de navegación ---------- */
+.nav {
+    background: #ffffff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav .marca {
+    font-weight: bold;
+    font-size: 16px;
+    color: #222;
+    margin-right: 20px;
+}
+
+.nav a {
+    color: #444;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 10px;
+}
+
+.nav a:hover {
+    background: #eee;
+    text-decoration: none;
+}
+
+/* ---------- Contenedor ---------- */
+.contenido {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ---------- Tablas ---------- */
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    margin-bottom: 18px;
+}
+
+.tabla th,
+.tabla td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px;
+}
+
+.tabla th {
+    background: #eee;
+    font-weight: bold;
+}
+
+.tabla tr:last-child td {
+    border-bottom: none;
+}
+
+.tabla tbody tr:hover {
+    background: #f0f0f0;
+}
+
+/* ---------- Botones ---------- */
+.boton {
+    display: inline-block;
+    background: #eee;
+    border: 1px solid #999;
+    color: #222;
+    padding: 6px 12px;
+    text-decoration: none;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.boton:hover {
+    background: #ddd;
+    text-decoration: none;
+    color: #222;
+}
+
+.boton-rojo {
+    background: #fff;
+    color: #b02a20;
+    border-color: #b02a20;
+}
+
+.boton-rojo:hover {
+    background: #b02a20;
+    color: #fff;
+}
+
+/* ---------- Formularios ---------- */
+.campo {
+    margin-bottom: 14px;
+}
+
+.campo label {
+    display: block;
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    border: 1px solid #999;
+    border-radius: 2px;
+    padding: 6px 8px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #ffffff;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    border-color: #0b62c4;
+    outline: 1px solid #0b62c4;
+}
+
+.texto-error {
+    color: #b02a20;
+    font-size: 12px;
+}
+
+/* ---------- Cajas, mensajes y errores ---------- */
+.caja {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin-bottom: 18px;
+    max-width: 100%;
+}
+
+.mensaje,
+.error {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    margin-bottom: 14px;
+    font-size: 14px;
+}
+
+.mensaje {
+    background: #e8f5e9;
+    border-color: #a5d6a7;
+    color: #1b5e20;
+}
+
+.error {
+    background: #fdecea;
+    border-color: #ef9a9a;
+    color: #7f1d1d;
+}
+
+/* ---------- Filtros y búsqueda ---------- */
+form[method="get"] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 18px;
+}
+
+form[method="get"] input[type="text"] {
+    flex: 1;
+    min-width: 220px;
+    border: 1px solid #999;
+    border-radius: 2px;
+    padding: 6px 8px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+/* ---------- Filtros de alquiler ---------- */
+.pie-filtros {
+    margin: 4px 0 14px;
+    font-size: 14px;
+    color: #555;
+}
+
+.pie-filtros a {
+    font-weight: bold;
+}
+
+/* ---------- Etiquetas de estado ---------- */
+.tabla-resumen {
+    width: 100%;
+    max-width: 560px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid #999;
+}
+
+.badge-ok {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-color: #a5d6a7;
+}
+
+.badge-pendiente {
+    background: #fff8e1;
+    color: #7f6000;
+    border-color: #f0e08a;
+}
+
+/* ---------- Pie de página ---------- */
+.pie {
+    text-align: center;
+    color: #777;
+    font-size: 13px;
+    margin-top: 28px;
+    padding-top: 14px;
+    border-top: 1px solid #ddd;
+}
+
+.pie p {
+    margin: 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+    .nav {
+        flex-wrap: wrap;
+        padding: 8px 10px;
+    }
+
+    .nav .marca {
+        width: 100%;
+        margin: 0 0 4px;
+    }
+
+    .tabla th,
+    .tabla td {
+        padding: 6px 8px;
+    }
+}
