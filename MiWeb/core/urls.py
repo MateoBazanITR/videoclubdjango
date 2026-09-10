@@ -1,7 +1,7 @@
 """
 URLs de la aplicación "core".
 Se organizan en dos grupos:
-  - /dueno/...  → secciones administrativas (protegidas por sesión).
+  - /dueño/...  → secciones administrativas (protegidas por sesión).
   - /cliente/... → áreas públicas para los socios.
 """
 from django.urls import path

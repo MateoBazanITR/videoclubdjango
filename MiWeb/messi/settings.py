@@ -74,20 +74,21 @@ WSGI_APPLICATION = 'messi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'videoclub',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '3333',
         'OPTIONS': {
             'charset': 'utf8mb4',
         },
     }
 }
+'''
 
 # XAMPP usa MariaDB 10.4, pero Django 6.0 requiere 10.6+.
 # Desactivamos la verificación de versión para compatibilidad con XAMPP.

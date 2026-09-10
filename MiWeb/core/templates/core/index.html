@@ -1,24 +1,120 @@
+```
 {% extends 'core/base.html' %}
 {% block title %}Inicio - Videoclub{% endblock %}
 {% block content %}
+
+<!-- Bienvenida -->
+<div class="text-center mb-5">
+    <h1> Somos el Videoclub</h1>
+    <p class="lead">Películas para todos los gustos, en un solo lugar.</p>
+</div>
+<style>
+    .carousel {
+        width: 60%;
+        max-width: 900px;
+        margin: 0 auto 3rem auto;
+    }
+
+    .carousel-inner {
+        width: 100%;
+    }
+
+    .carousel-item img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+
+<!-- Carrusel de películas -->
+<div id="peliculasCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+
+    <!-- Indicadores -->
+    <div id="peliculasCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+
+    <div class="carousel-indicators">
+        <button type="button"
+                data-bs-target="#peliculasCarousel"
+                data-bs-slide-to="0"
+                class="active"></button>
+
+        <button type="button"
+                data-bs-target="#peliculasCarousel"
+                data-bs-slide-to="1"></button>
+
+        <button type="button"
+                data-bs-target="#peliculasCarousel"
+                data-bs-slide-to="2"></button>
+    </div>
+
+    <div class="carousel-inner rounded shadow">
+
+        <div class="carousel-item active">
+            <img src="https://m.media-amazon.com/images/I/71vv-EfM8tL._AC_UF894,1000_QL80_.jpg"
+                 alt="Película 1">
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://diariodeunacinefila.wordpress.com/wp-content/uploads/2014/08/poster-paul.jpg"
+                 alt="Película 2">
+        </div>
+
+        <div class="carousel-item">
+            <img src="https://sm.ign.com/ign_es/image/s/spider-man/spider-man-brand-new-day-behind-the-scenes-footage-shows-off_c8ud.jpg"
+                 alt="Película 3">
+        </div>
+
+    </div>
+
+    <button class="carousel-control-prev"
+            type="button"
+            data-bs-target="#peliculasCarousel"
+            data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next"
+            type="button"
+            data-bs-target="#peliculasCarousel"
+            data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
+</div>
+
+
+<!-- Estructura original -->
 <div class="row justify-content-center g-4">
+
     <div class="col-md-5">
         <div class="card text-center shadow-sm h-100">
             <div class="card-body d-flex flex-column">
-                <h3 class="card-title">👤 Cliente</h3>
+                <h3 class="card-title"> Cliente</h3>
                 <p class="card-text">Consulta el catálogo, alquila películas y revisa tus alquileres activos.</p>
+
                 <div class="mt-auto d-grid gap-2">
-                    <a href="{% url 'cliente_peliculas' %}" class="btn btn-primary">Ver películas</a>
-                    <a href="{% url 'alquilar_paso1' %}" class="btn btn-success">Alquilar</a>
-                    <a href="{% url 'mis_alquileres' %}" class="btn btn-outline-primary">Mis alquileres</a>
+                    <a href="{% url 'cliente_peliculas' %}" class="btn btn-primary">
+                        Ver películas
+                    </a>
+
+                    <a href="{% url 'alquilar_paso1' %}" class="btn btn-success">
+                        Alquilar
+                    </a>
+
+                    <a href="{% url 'mis_alquileres' %}" class="btn btn-outline-primary">
+                        Mis alquileres
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+
+
     <div class="col-md-5">
         <div class="card text-center shadow-sm h-100">
             <div class="card-body d-flex flex-column">
-                <h3 class="card-title">🔑 Dueño</h3>
+                <h3 class="card-title"> Dueño</h3>
                 <p class="card-text">Gestiona películas, socios y devoluciones del videoclub.</p>
                 <div class="mt-auto">
                     <a href="{% url 'login_dueno' %}" class="btn btn-dark">Acceso dueño</a>
@@ -26,5 +122,8 @@
             </div>
         </div>
     </div>
+
 </div>
+
 {% endblock %}
+```

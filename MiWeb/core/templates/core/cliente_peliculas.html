@@ -26,9 +26,9 @@
             <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">{{ pelicula.titulo }}</h5>
-                    <p class="card-text small text-muted mb-1">🎬 Director: {{ pelicula.director.nombre }}</p>
-                    <p class="card-text small text-muted mb-1">📅 Año: {{ pelicula.anio }} · {{ pelicula.nacionalidad }}</p>
-                    <p class="card-text small text-muted mb-0">🏷️ {{ pelicula.productora }}</p>
+                    <p class="card-text small text-muted mb-1"> Director: {{ pelicula.director.nombre }}</p>
+                    <p class="card-text small text-muted mb-1"> Año: {{ pelicula.anio }} · {{ pelicula.nacionalidad }}</p>
+                    <p class="card-text small text-muted mb-0"> {{ pelicula.productora }}</p>
                     <span class="badge bg-success mt-2">{{ pelicula.disponibles }} disponible{{ pelicula.disponibles|pluralize }}</span>
                 </div>
             </div>
