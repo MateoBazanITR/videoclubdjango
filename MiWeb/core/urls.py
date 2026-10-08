@@ -31,6 +31,9 @@ urlpatterns = [
     # Devolución de ejemplares
     path('dueno/devolver/', views.devolver, name='devolver'),
 
+    # Cajero: movimientos de dinero del videoclub
+    path('dueno/cajero/', views.cajero, name='cajero'),
+
     # ─── Sección del cliente ───
     path('cliente/peliculas/', views.cliente_peliculas, name='cliente_peliculas'),  # Catálogo
 

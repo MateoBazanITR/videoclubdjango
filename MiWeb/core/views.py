@@ -1,17 +1,15 @@
 """
 Vistas del videoclub.
 Se dividen en dos grandes bloques:
-  - DUEÑO: administración de películas, socios y devoluciones (requiere login).
+  - DUEÑO: administración de películas, socios, devoluciones y caja (requiere login).
   - CLIENTE: catálogo, flujo de alquiler en 3 pasos y consulta de alquileres.
 """
 from django.contrib import messages
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Sum
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.urls import reverse
-from .import forms
-
-'''
+from . import forms
 from .forms import (
     LoginDuenoForm,
     PeliculaCrearForm,
@@ -20,24 +18,12 @@ from .forms import (
     DniForm,
     BusquedaForm,
     AlquilerPaso1Form,
+    MovimientoCajaForm,
 )
-'''
-from .models import Director, Actor, Pelicula, PeliculaActor, Ejemplar, Socio, Alquiler
+from .models import Director, Actor, Pelicula, PeliculaActor, Ejemplar, Socio, Alquiler, MovimientoCaja
 
 # Límite de alquileres simultáneos por socio.
 MAX_ALQUILERES_ACTIVOS = 4
-
-
-# ---------------------------------------------------------------- UTILIDAD
-# Decorador que protege las vistas del dueño: si no hay sesión de dueño
-# redirige al login.
-def requerir_dueno(vista):
-    def envoltura(request, *args, **kwargs):
-        if not request.session.get('es_dueno'):
-            messages.error(request, 'Debe iniciar sesión como dueño para acceder.')
-            return redirect('login_dueno')
-        return vista(request, *args, **kwargs)
-    return envoltura
 
 
 # Página de inicio (accesible para todos).
@@ -68,8 +54,11 @@ def logout_dueno(request):
 
 
 # Panel principal del dueño (acceso rápido a las distintas secciones).
-@requerir_dueno
 def panel_dueno(request):
+    if not request.session.get("es_dueno"):
+        messages.error(request, "Debe iniciar sesión como dueño para acceder.")
+        return redirect("login_dueno")
+
     return render(request, 'core/dueno_panel.html')
 
 
@@ -77,8 +66,11 @@ def panel_dueno(request):
 
 # Lista todas las películas con cantidad total de ejemplares y disponibles.
 # Permite filtrar por título con el parámetro GET "q".
-@requerir_dueno
 def dueno_peliculas(request):
+    if not request.session.get("es_dueno"):
+        messages.error(request, "Debe iniciar sesión como dueño para acceder.")
+        return redirect("login_dueno")
+
     form = BusquedaForm(request.GET)
     peliculas = Pelicula.objects.select_related('director').annotate(
         num_ejemplares=Count('ejemplares'),
@@ -97,8 +89,11 @@ def dueno_peliculas(request):
 # Alta de una película nueva junto con su director, actores y ejemplares.
 # Los actores se reciben como listas paralelas (nombre[], nacionalidad[], sexo[]).
 # Si el director ya existe se reutiliza; si no, se crea automáticamente.
-@requerir_dueno
 def pelicula_crear(request):
+    if not request.session.get("es_dueno"):
+        messages.error(request, "Debe iniciar sesión como dueño para acceder.")
+        return redirect("login_dueno")
+
     if request.method == 'POST':
         form = PeliculaCrearForm(request.POST)
         nombres = request.POST.getlist('actor_nombre')
@@ -179,8 +174,11 @@ def pelicula_crear(request):
 
 # Edita los datos generales de una película (título, año, director, etc.).
 # No permite modificar los ejemplares ni los actores desde acá.
-@requerir_dueno
 def pelicula_editar(request, pk):
+    if not request.session.get("es_dueno"):
+        messages.error(request, "Debe iniciar sesión como dueño para acceder.")
+        return redirect("login_dueno")
+
     pelicula = get_object_or_404(Pelicula, pk=pk)
 
     if request.method == 'POST':
@@ -216,8 +214,11 @@ def pelicula_editar(request, pk):
 
 
 # Elimina una película y todos sus datos asociados (cascada).
-@requerir_dueno
 def pelicula_eliminar(request, pk):
+    if not request.session.get("es_dueno"):
+        messages.error(request, "Debe iniciar sesión como dueño para acceder.")
+        return redirect("login_dueno")
+
     pelicula = get_object_or_404(Pelicula, pk=pk)
 
     if request.method == 'POST':
@@ -232,8 +233,11 @@ def pelicula_eliminar(request, pk):
 # ---------------------------------------------------------------- DUEÑO – SOCIOS
 
 # Lista todos los socios con sus alquileres activos (sin devolver).
-@requerir_dueno
 def dueno_socios(request):
+    if not request.session.get("es_dueno"):
+        messages.error(request, "Debe iniciar sesión como dueño para acceder.")
+        return redirect("login_dueno")
+
     socios = Socio.objects.prefetch_related('alquileres__ejemplar__pelicula').order_by('dni')
     lista = []
     for socio in socios:
@@ -243,8 +247,11 @@ def dueno_socios(request):
 
 
 # Alta de un socio nuevo desde el panel del dueño.
-@requerir_dueno
 def socio_crear(request):
+    if not request.session.get("es_dueno"):
+        messages.error(request, "Debe iniciar sesión como dueño para acceder.")
+        return redirect("login_dueno")
+
     if request.method == 'POST':
         form = SocioCrearForm(request.POST)
         if form.is_valid():
@@ -261,8 +268,11 @@ def socio_crear(request):
 
 
 # Elimina un socio.
-@requerir_dueno
 def socio_eliminar(request, dni):
+    if not request.session.get("es_dueno"):
+        messages.error(request, "Debe iniciar sesión como dueño para acceder.")
+        return redirect("login_dueno")
+
     socio = get_object_or_404(Socio, pk=dni)
 
     if request.method == 'POST':
@@ -279,8 +289,11 @@ def socio_eliminar(request, dni):
 # Flujo de devolución en dos pasos:
 #   1) Se ingresa el DNI del socio → se listan sus alquileres activos.
 #   2) Se elige un alquiler → se marca como devuelto y el ejemplar vuelve a "Disponible".
-@requerir_dueno
 def devolver(request):
+    if not request.session.get("es_dueno"):
+        messages.error(request, "Debe iniciar sesión como dueño para acceder.")
+        return redirect("login_dueno")
+
     socio = None
     activos = []
     dni_form = DniForm()
@@ -320,6 +333,42 @@ def devolver(request):
         'dni_form': dni_form,
         'socio': socio,
         'activos': activos,
+    })
+
+
+# ---------------------------------------------------------------- DUEÑO – CAJERO
+# Muestra los movimientos de dinero del videoclub y permite registrar un
+# ingreso o un egreso. El total es la suma de los ingresos menos la de los egresos.
+def cajero(request):
+    if not request.session.get("es_dueno"):
+        messages.error(request, "Debe iniciar sesión como dueño para acceder.")
+        return redirect("login_dueno")
+
+    if request.method == 'POST':
+        form = MovimientoCajaForm(request.POST)
+        if form.is_valid():
+            datos = form.cleaned_data
+            MovimientoCaja.objects.create(
+                fecha=datos['fecha'],
+                tipo=datos['tipo'],
+                descripcion=datos['descripcion'],
+                monto=datos['monto'],
+            )
+            messages.success(request, 'Movimiento registrado correctamente.')
+            return redirect('cajero')
+    else:
+        form = MovimientoCajaForm()
+
+    movimientos = MovimientoCaja.objects.all()
+    ingresos = movimientos.filter(tipo='Ingreso').aggregate(total=Sum('monto'))['total'] or 0
+    egresos = movimientos.filter(tipo='Egreso').aggregate(total=Sum('monto'))['total'] or 0
+
+    return render(request, 'core/cajero.html', {
+        'form': form,
+        'movimientos': movimientos,
+        'ingresos': ingresos,
+        'egresos': egresos,
+        'total': ingresos - egresos,
     })
 
 

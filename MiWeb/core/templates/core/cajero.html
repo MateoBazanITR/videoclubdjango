@@ -1,0 +1,101 @@
+{% extends 'core/base.html' %}
+{% block title %}Cajero - Panel dueño{% endblock %}
+{% block content %}
+<h2 class="mb-3">Cajero</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center h-100">
+            <div class="card-body">
+                <h6 class="card-title text-muted">Ingresos</h6>
+                <p class="card-text fs-4 text-success mb-0">$ {{ ingresos }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center h-100">
+            <div class="card-body">
+                <h6 class="card-title text-muted">Egresos</h6>
+                <p class="card-text fs-4 text-danger mb-0">$ {{ egresos }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm text-center h-100 border-primary">
+            <div class="card-body">
+                <h6 class="card-title text-muted">Total</h6>
+                <p class="card-text fs-4 fw-bold mb-0">$ {{ total }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h5 class="card-title mb-3">Registrar movimiento</h5>
+        <form method="post">
+            {% csrf_token %}
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label" for="{{ form.fecha.id_for_label }}">{{ form.fecha.label }}</label>
+                    {{ form.fecha }}
+                    {% for error in form.fecha.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="{{ form.tipo.id_for_label }}">{{ form.tipo.label }}</label>
+                    {{ form.tipo }}
+                    {% for error in form.tipo.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="{{ form.descripcion.id_for_label }}">{{ form.descripcion.label }}</label>
+                    {{ form.descripcion }}
+                    {% for error in form.descripcion.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label" for="{{ form.monto.id_for_label }}">{{ form.monto.label }}</label>
+                    {{ form.monto }}
+                    {% for error in form.monto.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary w-100">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle bg-white shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+                <th class="text-end">Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movimiento in movimientos %}
+                <tr>
+                    <td>{{ movimiento.fecha }}</td>
+                    <td>
+                        {% if movimiento.tipo == 'Ingreso' %}
+                            <span class="badge text-bg-success">Ingreso</span>
+                        {% else %}
+                            <span class="badge text-bg-danger">Egreso</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ movimiento.descripcion }}</td>
+                    <td class="text-end">
+                        {% if movimiento.tipo == 'Ingreso' %}+{% else %}-{% endif %} $ {{ movimiento.monto }}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">Todavía no hay movimientos de dinero.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

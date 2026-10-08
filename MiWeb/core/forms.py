@@ -7,6 +7,7 @@ Cada formulario valida los datos de entrada de una sección específica:
   - DniForm                → búsqueda de socio por DNI.
   - BusquedaForm           → filtro de búsqueda por título.
   - AlquilerPaso1Form      → primer paso del flujo de alquiler (datos del socio).
+  - MovimientoCajaForm     → alta de un movimiento de dinero (ingreso/egreso).
 """
 from django import forms
 from django.core.exceptions import ValidationError
@@ -208,3 +209,41 @@ class AlquilerPaso1Form(forms.Form):
         if not nombre:
             raise ValidationError('Debe ingresar su nombre.')
         return nombre
+
+
+# ─── MOVIMIENTO DE CAJA ───
+# Registra una entrada (ingreso) o una salida (egreso) de dinero.
+class MovimientoCajaForm(forms.Form):
+    fecha = forms.DateField(
+        label='Fecha',
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+    )
+    tipo = forms.ChoiceField(
+        choices=[('Ingreso', 'Ingreso'), ('Egreso', 'Egreso')],
+        label='Tipo',
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+    descripcion = forms.CharField(
+        max_length=200,
+        label='Descripción',
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ej.: Alquiler de Toy story'}),
+    )
+    monto = forms.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        min_value=0,
+        label='Monto',
+        widget=forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+    )
+
+    def clean_descripcion(self):
+        descripcion = self.cleaned_data['descripcion'].strip()
+        if not descripcion:
+            raise ValidationError('Debe ingresar una descripción.')
+        return descripcion
+
+    def clean_monto(self):
+        monto = self.cleaned_data['monto']
+        if monto <= 0:
+            raise ValidationError('El monto debe ser mayor a 0.')
+        return monto
